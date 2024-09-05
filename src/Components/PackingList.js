@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Item from "./Item";
+// import { download } from "./fileMaintenance";
 
 export default function PackingList({
 	items,
@@ -44,6 +45,8 @@ export default function PackingList({
 					<option value="packed">Sort by Packed Status</option>
 				</select>
 				<button onClick={onClearList}>Clear List</button>
+				{/* <button onClick={loadFile}>Load File</button> */}
+				{/* <button onClick={download}>Save File</button> */}
 			</div>
 		</div>
 	);
