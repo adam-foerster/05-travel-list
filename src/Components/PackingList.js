@@ -7,6 +7,8 @@ export default function PackingList({
 	onDeleteItem,
 	onToggleItem,
 	onClearList,
+	onLoadFile,
+	onSaveFile,
 }) {
 	const [sortBy, setSortBy] = useState("input");
 
@@ -45,8 +47,8 @@ export default function PackingList({
 					<option value="packed">Sort by Packed Status</option>
 				</select>
 				<button onClick={onClearList}>Clear List</button>
-				{/* <button onClick={loadFile}>Load File</button> */}
-				{/* <button onClick={download}>Save File</button> */}
+				<button onClick={onLoadFile}>Load File</button>
+				<button onClick={onSaveFile}>Save File</button>
 			</div>
 		</div>
 	);
