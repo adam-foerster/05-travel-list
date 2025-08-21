@@ -23,24 +23,14 @@ export default function App() {
 		);
 	}
 
-	function handleClearList() {
-		const confirmed = window.confirm(
-			"Are you sure you want to clear the list?"
-		);
-
-		if (confirmed) setItems([]);
-	}
-
 	function handleLoadFile() {
 		const data = localStorage.getItem("packing-list");
 		if (data) {
 			setItems(JSON.parse(data));
 			console.log("Packing list loaded from local storage.");
 		}
-		//stopping the recursion of use state and use effect
 	}
 
-	//setting up saving to browser storage
 	function handleSaveFile() {
 		localStorage.setItem("packing-list", JSON.stringify(items));
 		console.log("Packing list saved to local storage.");
@@ -48,7 +38,13 @@ export default function App() {
 
 	function handleClearFile() {
 		localStorage.removeItem("packing-list");
-		setItems([]);
+		const confirmed = window.confirm(
+			"Are you sure you want to clear the list?"
+		);
+
+		if (confirmed) {
+			setItems([]);
+		}
 		console.log("Packing list cleared from local storage.");
 	}
 
@@ -60,7 +56,6 @@ export default function App() {
 				items={items}
 				onDeleteItem={handleDeleteItem}
 				onToggleItem={handleToggleItem}
-				onClearList={handleClearList}
 				onClearFile={handleClearFile}
 			/>
 			<Stats items={items} />
