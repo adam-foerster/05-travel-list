@@ -32,44 +32,36 @@ export default function App() {
 	}
 
 	function handleLoadFile() {
-		const input = document.createElement("input");
-		input.type = "file";
-		input.accept = ".json";
-		input.onchange = (e) => {
-			const file = e.target.files[0];
-			const reader = new FileReader();
-			reader.onload = (e) => {
-				const text = e.target.result;
-				const data = JSON.parse(text);
-				setItems(data);
-			};
-			reader.readAsText(file);
-		};
-		input.click();
+		const data = localStorage.getItem("packing-list");
+		if (data) {
+			setItems(JSON.parse(data));
+			console.log("Packing list loaded from local storage.");
+		}
+		//stopping the recursion of use state and use effect
 	}
 
+	//setting up saving to browser storage
 	function handleSaveFile() {
-		const data = JSON.stringify(items, null, 2);
-		const blob = new Blob([data], { type: "application/json" });
-		const url = URL.createObjectURL(blob);
-		const a = document.createElement("a");
-		a.href = url;
-		a.download = "packing-list.json";
-		a.click();
-		URL.revokeObjectURL(url);
+		localStorage.setItem("packing-list", JSON.stringify(items));
+		console.log("Packing list saved to local storage.");
+	}
+
+	function handleClearFile() {
+		localStorage.removeItem("packing-list");
+		setItems([]);
+		console.log("Packing list cleared from local storage.");
 	}
 
 	return (
 		<div>
-			<Logo />
-			<Form onAddItems={handleAddItems} />
+			<Logo onLoadFile={handleLoadFile} />
+			<Form onAddItems={handleAddItems} onSaveFile={handleSaveFile} />
 			<PackingList
 				items={items}
 				onDeleteItem={handleDeleteItem}
 				onToggleItem={handleToggleItem}
 				onClearList={handleClearList}
-				onLoadFile={handleLoadFile}
-				onSaveFile={handleSaveFile}
+				onClearFile={handleClearFile}
 			/>
 			<Stats items={items} />
 		</div>
